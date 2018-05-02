@@ -13,8 +13,10 @@
 
 use App\SearchOption;
 use App\Field;
+use App\api_provider;
 use Illuminate\Http\Request;
 
+Route::resource('providers','ApiProviderController');
 Route::resource('fields','FieldController');
 Route::resource('options','SearchOptionController');
 
@@ -38,32 +40,13 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
             $queryArrayAPI[$attribute->query_path] .= (urlencode(' '.$request->get($attribute['id'])));
         }
     }
-    /*
-     * Richiesta Token
-     */
-    $curl = curl_init();
-    $url = 'https://api.mendeley.com/oauth/token';
-    $query = array ('grant_type' => 'client_credentials', 'scope' => 'all');
-    $id = "5047"; //ID dell'applicazione
-    $secret = "iOU6ZIt9cvL5spaz"; //Codice segreto che viene fornito da Mendeley alla registrazione dell'applicazione
-    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($query));
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_USERPWD, $id . ":" . $secret);
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $result = curl_exec($curl);
-    if (curl_errno($curl)){
-        $messageError = curl_error($curl);
-        curl_close($curl);
-        view('search.result',compact('result'))->with('error','Error:' . $messageError);
-    }
-    $json = json_decode($result, true);
-    $token = $json['access_token'];
+
     /*
      * Richiesta API
      */
     $url = "https://api.mendeley.com".$option->root_path."?";
     $curl = curl_init();
+    $token = api_provider::getToken();
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
     $headers = array();
     $headers[] = "Authorization: Bearer ".$token;

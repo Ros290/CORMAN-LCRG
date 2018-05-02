@@ -14,8 +14,6 @@ class FieldController extends Controller
      */
     public function index()
     {
-        //$fields = Field::all()->toArray();
-        //return view('search.index', compact ('fields'));
         return view('search.manage_options.index');
     }
 
