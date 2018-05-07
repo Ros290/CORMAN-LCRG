@@ -69,8 +69,15 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
-                <label for="query">Query API Mendeley:</label>
-                <input type="text" class="form-control" name="query_path">
+                <label for="query">Parameter on URL request:</label>
+                <input type="text" class="form-control" name="attr_url">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+                <label for="query">Parameter on JSON</label>
+                <input type="text" class="form-control" name="attr_json">
             </div>
         </div>
         <div class="row">

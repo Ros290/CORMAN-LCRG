@@ -44,14 +44,15 @@
         </div>
     </form>
     @if(\Session::has('jsonAPI'))
+        //TI
         <?php
         $result = \Session::get('jsonAPI');
         $json = json_decode($result, true);
-
         if (is_array($json)) {
             foreach ($json as $result){
                 echo '<p>';
-                echo $result['first_name'].','.$result['last_name'];
+                foreach($attributes as $attribute)
+                    echo $result[$attribute['attr_json']];
                 echo ';</p>';
             }
         }

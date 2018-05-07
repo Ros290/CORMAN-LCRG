@@ -17,8 +17,8 @@ use App\api_provider;
 use Illuminate\Http\Request;
 
 Route::resource('providers','ApiProviderController');
-Route::resource('fields','FieldController');
-Route::resource('options','SearchOptionController');
+Route::resource('fields','FieldController')->except(['create','show']);
+Route::resource('options','SearchOptionController')->except(['show']);
 
 Route::get('search/{id_option}',function($id_option){
     $option = SearchOption::find($id_option);
@@ -35,9 +35,9 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
     $queryArrayAPI = array();
     foreach ($attributes as $attribute){
         if (!empty($request->get($attribute['id']))){
-            if (!isset($queryArrayAPI[$attribute->query_path]))
-                $queryArrayAPI[$attribute->query_path] = (urlencode($request->get($attribute['id'])));
-            $queryArrayAPI[$attribute->query_path] .= (urlencode(' '.$request->get($attribute['id'])));
+            if (!isset($queryArrayAPI[$attribute->attr_url]))
+                $queryArrayAPI[$attribute->attr_url] = (urlencode($request->get($attribute['id'])));
+            $queryArrayAPI[$attribute->attr_url] .= (urlencode(' '.$request->get($attribute['id'])));
         }
     }
 
@@ -61,7 +61,12 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
         view('search.result',compact('result'))->with('error','Error:' . $messageError);
     }
     curl_close($curl);
-    return back()->with('jsonAPI',$result);
+    $arrayResult = array();
+    $json = json_decode($result, true);
+    foreach($attributes as $attribute){
+        $arrayResult[$attribute->name] = $json[$attribute->attr_json];
+    }
+    return back()->with('jsonAPI',$json);
 });
 
 Route::post('search',function(Response $response){

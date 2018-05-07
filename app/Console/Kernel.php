@@ -39,8 +39,6 @@ class Kernel extends ConsoleKernel
 
                 $id = $provider->id_app;
                 $secret = Crypt::decryptString($provider->secret_app);
-                //$id = "5047"; //ID dell'applicazione
-                //$secret = "iOU6ZIt9cvL5spaz"; //Codice segreto che viene fornito da Mendeley alla registrazione dell'applicazione
                 curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($query));
                 curl_setopt($curl, CURLOPT_POST, 1);
                 curl_setopt($curl, CURLOPT_USERPWD, $id . ":" . $secret);

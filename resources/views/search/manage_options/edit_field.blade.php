@@ -28,8 +28,8 @@
         </div><br />
     @endif
     <form method="post" action="{{action('FieldController@update', $id)}}">
-        {{csrf_field()}}
-        {{ method_field('PUT')}}<!--funzione UPDATE del modello accetta solo richieste con metodo PUT-->
+    {{csrf_field()}}
+    {{ method_field('PUT')}}<!--funzione UPDATE del modello accetta solo richieste con metodo PUT-->
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
@@ -51,8 +51,15 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
-                <label for="query">Query API Mendeley:</label>
-                <input type="text" class="form-control" name="query_path" value="{{$field->query_path}}">
+                <label for="query">Parameter on URL request:</label>
+                <input type="text" class="form-control" name="attr_url" value="{{$field->attr_url}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+                <label for="query">Parameter on JSON</label>
+                <input type="text" class="form-control" name="attr_json" value="{{$field->attr_json}}">
             </div>
         </div>
         <div class="row">
@@ -63,13 +70,13 @@
                 <input type="radio" id="ifNo" class="form-control" name="values" value="0">No
             </div>
         </div>
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="form-group col-md-4">
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Update Field</button>
-    </div>
-</div>
-</form>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+                <button type="submit" class="btn btn-success" style="margin-left:38px">Update Field</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

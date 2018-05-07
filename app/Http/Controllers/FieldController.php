@@ -37,7 +37,8 @@ class FieldController extends Controller
     {
         $field = $this->validate(request(), [
             'name' => 'required',
-            'query_path' => 'required',
+            'attr_url' => 'required',
+            'attr_json' => 'required',
             'values' => 'required',
             'id_option' => 'required|numeric'
         ]);
@@ -82,12 +83,14 @@ class FieldController extends Controller
         $field = Field::find($id);
         $this->validate(request(), [
             'name' => 'required',
-            'query_path' => 'required',
+            'attr_url' => 'required',
+            'attr_json' => 'required',
             'values' => 'required',
             'id_option' => 'required|numeric'
         ]);
         $field->name = $request->get('name');
-        $field->query_path = $request->get('query_path');
+        $field->attr_url = $request->get('attr_url');
+        $field->attr_json = $request->get('attr_json');
         $field->values = $request->get('values');
         $field->id_option = $request->get('id_option');
         $field->save();
