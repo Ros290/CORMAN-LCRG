@@ -61,12 +61,16 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
         view('search.result',compact('result'))->with('error','Error:' . $messageError);
     }
     curl_close($curl);
-    $arrayResult = array();
+    $result_array = array();
     $json = json_decode($result, true);
-    foreach($attributes as $attribute){
-        $arrayResult[$attribute->name] = $json[$attribute->attr_json];
+    foreach ($json as $item_json) {
+        $item_array = array();
+        foreach ($attributes as $attribute) {
+            $item_array[$attribute->name] = $item_json[$attribute->attr_json];
+        }
+        $result_array[] = $item_array;
     }
-    return back()->with('jsonAPI',$json);
+    return back()->with('jsonAPI',$result_array);
 });
 
 Route::post('search',function(Response $response){

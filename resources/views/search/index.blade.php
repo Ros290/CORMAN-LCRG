@@ -44,20 +44,21 @@
         </div>
     </form>
     @if(\Session::has('jsonAPI'))
-        //TI
-        <?php
-        $result = \Session::get('jsonAPI');
-        $json = json_decode($result, true);
-        if (is_array($json)) {
-            foreach ($json as $result){
-                echo '<p>';
-                foreach($attributes as $attribute)
-                    echo $result[$attribute['attr_json']];
-                echo ';</p>';
-            }
-        }
-
-        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                    <th>{{$field}}</th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                        <td>{{$value}}</td>
+                    @endforeach
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     @endif
 </div>
 </body>
