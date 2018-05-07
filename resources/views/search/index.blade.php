@@ -47,12 +47,15 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                @foreach((\Session::get('jsonAPI'))[0] as $field => $value )
                     <th>{{$field}}</th>
                 @endforeach
             </tr>
             </thead>
             <tbody>
+            @foreach(\Session::get('jsonAPI') as $element_array)
                 <tr>
+                    @foreach($element_array as $value)
                         <td>{{$value}}</td>
                     @endforeach
                 </tr>
