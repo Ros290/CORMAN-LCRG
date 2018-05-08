@@ -31,20 +31,26 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
     $attributes = $option->hasMany('App\Field','id_option')->get();
     /*
      * Creazione della query per la API
+     *
+     * TODO: quando una richiesta è composta da più campi, utilizza solo la prima definita. Capire perchè
+     * per riportare un caso specifico: avendo l'opzione "Catalog", e definiti i campi "title", "min_year" e "source",
+     * volendo ricercare un cataloghi con titolo "ni-based" e quali hanno una data di pubblicazione dal "2000",
+     * ciò nonostante mi restituisce tutti i titoli che hanno quel titolo, indifferentemente dall'anno di pubblicazione
      */
     $queryArrayAPI = array();
     foreach ($attributes as $attribute){
         if (!empty($request->get($attribute['id']))){
             if (!isset($queryArrayAPI[$attribute->attr_url]))
                 $queryArrayAPI[$attribute->attr_url] = (urlencode($request->get($attribute['id'])));
-            $queryArrayAPI[$attribute->attr_url] .= (urlencode(' '.$request->get($attribute['id'])));
+            else
+                $queryArrayAPI[$attribute->attr_url] .= (urlencode(' '.$request->get($attribute['id'])));
         }
     }
 
     /*
      * Richiesta API
      */
-    $url = "https://api.mendeley.com".$option->root_path."?";
+    $url = api_provider::getHost().$option->root_path."?";
     $curl = curl_init();
     $token = api_provider::getToken();
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
@@ -53,12 +59,14 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     $queryURL = htmlentities(http_build_query($queryArrayAPI));
     curl_setopt($curl, CURLOPT_URL, $url.$queryURL);
+    curl_setopt($curl, CURLOPT_FAILONERROR, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($curl);
     if (curl_errno($curl)) {
-        $messageError = curl_error($curl);
+        $error_array = array();
+        $error_array[] = curl_error($curl);
         curl_close($curl);
-        view('search.result',compact('result'))->with('error','Error:' . $messageError);
+        return back()->withErrors($error_array);
     }
     curl_close($curl);
     $result_array = array();

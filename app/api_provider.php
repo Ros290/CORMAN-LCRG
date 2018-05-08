@@ -14,4 +14,11 @@ class api_provider extends Model
             return $provider->remember_token;
         return false;
     }
+
+    static public function getHost(){
+        $provider = api_provider::where('isOn','1')->first();
+        if ($provider)
+            return $provider->host;
+        return false;
+    }
 }

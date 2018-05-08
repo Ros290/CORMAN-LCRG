@@ -19,6 +19,15 @@
 <body>
 <div class="container">
     <h2>Search {{$option['name']}}</h2><br/>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div><br />
+    @endif
     <div class ="row" id="checkBoxTag">
         <div class="form-group col-md-4">
             @foreach($attributes as $attribute)
