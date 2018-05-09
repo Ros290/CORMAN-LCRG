@@ -20,22 +20,19 @@ Route::resource('providers','ApiProviderController');
 Route::resource('fields','FieldController')->except(['create','show']);
 Route::resource('options','SearchOptionController')->except(['show']);
 
-Route::get('search/{id_option}',function($id_option){
-    $option = SearchOption::find($id_option);
+Route::get('home', function(){
+    return view('home')->with('options',SearchOption::all());
+});
+
+Route::get('search/{option}',function(SearchOption $option){
     $attributes = $option->hasMany('App\Field','id_option')->get()->toArray();
     return view('search.index',compact('search'))->with('attributes',$attributes)->with('option',$option);
 });
 
-Route::post('result/{id_option}',function(Request $request, $id_option){
-    $option = SearchOption::find($id_option);
+Route::post('result/{option}',function(Request $request, SearchOption $option){
     $attributes = $option->hasMany('App\Field','id_option')->get();
     /*
      * Creazione della query per la API
-     *
-     * TODO: quando una richiesta è composta da più campi, utilizza solo la prima definita. Capire perchè
-     * per riportare un caso specifico: avendo l'opzione "Catalog", e definiti i campi "title", "min_year" e "source",
-     * volendo ricercare un cataloghi con titolo "ni-based" e quali hanno una data di pubblicazione dal "2000",
-     * ciò nonostante mi restituisce tutti i titoli che hanno quel titolo, indifferentemente dall'anno di pubblicazione
      */
     $queryArrayAPI = array();
     foreach ($attributes as $attribute){
@@ -57,7 +54,7 @@ Route::post('result/{id_option}',function(Request $request, $id_option){
     $headers = array();
     $headers[] = "Authorization: Bearer ".$token;
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    $queryURL = htmlentities(http_build_query($queryArrayAPI));
+    $queryURL = http_build_query($queryArrayAPI);
     curl_setopt($curl, CURLOPT_URL, $url.$queryURL);
     curl_setopt($curl, CURLOPT_FAILONERROR, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
