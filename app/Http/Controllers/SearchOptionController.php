@@ -14,7 +14,6 @@ class SearchOptionController extends Controller
      */
     public function index()
     {
-        //$options = SearchOption::all()->toArray();
         $options = SearchOption::all();
         return view('search.manage_options.index', compact ('options'));
     }

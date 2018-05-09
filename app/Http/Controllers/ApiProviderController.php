@@ -47,7 +47,12 @@ class ApiProviderController extends Controller
         $provider = new api_provider($attributes);
         $provider->host = $attributes['host'];
         $provider->id_app = $attributes['id_app'];
-        //$provider->secret_app = encrypt($attributes['secret_app']);
+        /*
+         * il codice segreto viene immediatamente "codificato". Questo perchè è solo tramite
+         * questo valore che si ha modo di ricavare i token e tutti i permessi necessari per pote
+         * svolgere tutte le funzionalità del progetto. Sopratutto non appena si dovrà avere
+         * a che fare con i Dataset.
+         */
         $provider->secret_app = Crypt::encryptString($attributes['secret_app']);
         $provider->save();
         return redirect('providers')->with('success','Api Provider "'.$provider['name'].'" has been added');
@@ -97,9 +102,17 @@ class ApiProviderController extends Controller
         $provider->name = $attributes['name'];
         $provider->host = $attributes['host'];
         $provider->id_app = $attributes['id_app'];
+        /*
+         * Per far sì di passare "l'incarico" da un provider ad un altro attualmente in funzione (qualora si voglia
+         * utilizzare un altro provider)
+         */
         if (($attributes['isOn']!=$provider->isOn)&&($attributes['isOn']=='1')){
             $provider_online = api_provider::where('isOn','1')->first();
             if ($provider_online){
+                /*
+                 * ricavo il provider in uso (provider_online) , e lo si "spegne", in modo tale da poter affidare l'incarico al provider
+                 * desiderato
+                 */
                 $provider_online->isOn = '0';
                 $provider_online->save();
             }
