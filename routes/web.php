@@ -28,6 +28,7 @@ Route::resource('providers','ApiProviderController');
  */
 Route::resource('fields','FieldController')->except(['create','show']);
 Route::resource('utente','UtenteController');
+Route::resource('gruppo','GruppoController');
 Route::resource('options','SearchOptionController')->except(['show']);
 
 Route::get('home', function(){
@@ -142,6 +143,9 @@ Route::post('search',function(Response $response){
     return back();
 });
 
+Route::get('testMichelangelo',function(){
+    return view ('search.page');
+});
 
 Route::get('/', function () {
     return view('welcome');
