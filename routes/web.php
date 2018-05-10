@@ -27,6 +27,7 @@ Route::resource('providers','ApiProviderController');
  * del FieldController non ha senso di essere rilevata
  */
 Route::resource('fields','FieldController')->except(['create','show']);
+Route::resource('utente','UtenteController');
 Route::resource('options','SearchOptionController')->except(['show']);
 
 Route::get('home', function(){
