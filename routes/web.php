@@ -150,3 +150,6 @@ Route::get('testMichelangelo',function(){
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('test',function(){
+    return view('search.my_profile');
+});
