@@ -143,10 +143,6 @@ Route::post('search',function(Response $response){
     return back();
 });
 
-Route::get('testMichelangelo',function(){
-    return view ('search.page');
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
