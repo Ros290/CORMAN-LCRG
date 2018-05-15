@@ -19,7 +19,12 @@
 @endif
           <p>Nome : {{$utente->name}}</p><br>
           <p>E-Mail : {{$utente->email}}</p><br>
-
+    <h1> Descrizione </h1>
+    <textarea name="descrizione" rows="15" cols=150">
+        </textarea>
+    <form action=http://www.html.it target=”_blank”>
+        <input type=”submit”value=”visita HTML.it”>
+    </form>
 </div>
 </body>
 </html>

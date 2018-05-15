@@ -19,6 +19,7 @@ class CreateUtentesTable extends Migration
             $table->string('email');
             $table->increments('id');
             $table->timestamps();
+            $table->text('description')->nullable();
         });
     }
 
