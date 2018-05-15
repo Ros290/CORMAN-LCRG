@@ -146,3 +146,6 @@ Route::post('search',function(Response $response){
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('test',function(){
+    return view('search.my_profile');
+});
