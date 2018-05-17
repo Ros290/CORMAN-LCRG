@@ -13,7 +13,7 @@ class GruppoController extends Controller
      */
     public function index()
     {
-        //
+        return view('groups.create');
     }
 
     /**
