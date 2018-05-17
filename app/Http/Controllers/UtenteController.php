@@ -59,7 +59,11 @@ class UtenteController extends Controller
      */
     public function show($id)
     {
-        //
+        $utente = utente::find($id);
+        if(!empty($utente))
+            return view('search.my_profile',compact('utente'));
+        else
+            abort(404);
     }
 
     /**
