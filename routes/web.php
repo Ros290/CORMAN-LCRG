@@ -34,6 +34,9 @@ Route::resource('fields','FieldController')->except(['create','show']);
 Route::resource('utente','UtenteController');
 Route::resource('gruppo','GruppoController');
 Route::resource('options','SearchOptionController')->except(['show']);
+Route::resource('subFields','SubFieldController');
+Route::get('subFields/create/{field}','SubFieldController@create');
+Route::get('subFields/{field}','SubFieldController@store');
 
 Route::get('home', function(){
     return view('home')->with('options',SearchOption::all());
@@ -136,7 +139,13 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
          * TODO: e se "attribute" sia, a sua volta, un array?
          */
         foreach ($attributes as $attribute) {
-            $item_array[$attribute->name] = $item_json[$attribute->attr_json];
+            if(is_array($item_json[$attribute->attr_json])){
+                $collection = collect($item_json[$attribute->attr_json]);
+                $item_array[$attribute->name] = $collection->implode('last_name',';');
+            }
+
+            else
+                $item_array[$attribute->name] = $item_json[$attribute->attr_json];
         }
         $result_array[] = $item_array;
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Field;
+use App\subField;
 use Illuminate\Http\Request;
 
 class FieldController extends Controller
@@ -42,9 +43,7 @@ class FieldController extends Controller
             'values' => 'required',
             'id_option' => 'required|numeric'
         ]);
-
         Field::create($field);
-
         return back()->with('success', 'Field "'.$field['name'].'" has been added');
     }
 
