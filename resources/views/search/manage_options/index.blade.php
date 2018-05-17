@@ -55,7 +55,7 @@
                             <button class="btn btn-danger" type="submit">Delete Field</button>
                         </form>
                     </td>
-                    <td><a href="{{action('FieldController@edit', $field['id'])}}" class="btn btn-warning">Edit Field</a></td>
+                    <td><a href="{{url('subFields/create/'.$field['id'])}}" class="btn btn-success">Add new Sub-Field</a></td>
                 </tr>
 
 

@@ -13,6 +13,7 @@
 
 use App\SearchOption;
 use App\Field;
+use App\subField;
 use App\api_provider;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,7 @@ Route::resource('gruppo','GruppoController');
 Route::resource('options','SearchOptionController')->except(['show']);
 Route::resource('subFields','SubFieldController');
 Route::get('subFields/create/{field}','SubFieldController@create');
-Route::get('subFields/{field}','SubFieldController@store');
+Route::post('subFields/{field}','SubFieldController@store');
 
 Route::get('home', function(){
     return view('home')->with('options',SearchOption::all());
@@ -135,13 +136,21 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
          * per ogni entità, definisco un "item_array", quali conterrà solamente i valori dei campi "interessati"
          */
         $item_array = array();
-        /*
-         * TODO: e se "attribute" sia, a sua volta, un array?
-         */
         foreach ($attributes as $attribute) {
             if(is_array($item_json[$attribute->attr_json])){
+                $sub_fields = $attribute->hasMany('App\subField','id_super_field')->get();
+                $sub_array_json = $item_json[$attribute->attr_json];
+                $item_serializated = false;
+                foreach ($sub_array_json as $sub_item_json){
+                    foreach ($sub_fields as $sub_field){
+                        $item_serializated .= $sub_item_json[$sub_field->sub_attr_json];
+                    }
+                }
+                $item_array[$attribute->name] = $item_serializated;
+                /*
                 $collection = collect($item_json[$attribute->attr_json]);
                 $item_array[$attribute->name] = $collection->implode('last_name',';');
+                */
             }
 
             else

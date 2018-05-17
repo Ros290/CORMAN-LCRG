@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class subField extends Model
 {
-    protected $fillable = ['id','sub_attr_json'];
+    protected $fillable = ['sub_attr_json','id_super_field'];
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Field;
+use App\subField;
 
 class SubFieldController extends Controller
 {
@@ -33,12 +34,17 @@ class SubFieldController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //TODO: richiamare l'id del field dall'url su modello SubField
     public function store(Request $request,Field $field)
     {
-        $subField = $this->validate(request(),[
+        $this->validate(request(),[
            'sub_attr_json' => 'required'
         ]);
+        $subField = [
+            'sub_attr_json' => $request->request->get('sub_attr_json'),
+            'id_super_field' => $field->id
+        ];
+        subField::create($subField);
+        return back()->with('success','Sub-Field '.$subField['sub_attr_json'].' has been added');
     }
 
     /**

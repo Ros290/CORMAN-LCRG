@@ -22,7 +22,7 @@
             <p>{{ \Session::get('success') }}</p>
         </div><br />
     @endif
-    <form method="post" action="{{url('subFields/'.$field->id)}}">
+    <form method="post" action="{{url('subFields/'.$field['id'])}}">
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-4"></div>
