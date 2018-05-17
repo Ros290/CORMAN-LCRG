@@ -11,6 +11,7 @@
             var textnode = document.createTextNode("Email");
             node.appendChild(textnode);
             document.getElementById("myList").appendChild(node);
+
         }
     </script>
 </head>
@@ -18,11 +19,10 @@
 
     <div>
         <td>Email</td>
-        <td><input type="text" id="numero" value= "" /></td>
+        <td><input type="text" id="1" value= "" /></td>
         <button onclick="myFunction()">+</button>
     </div>
     <div id="myList">
-      <!--   <ol>Email</ol>
 
        </div>
    </div>
