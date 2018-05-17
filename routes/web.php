@@ -16,6 +16,10 @@ use App\Field;
 use App\api_provider;
 use Illuminate\Http\Request;
 
+Route::get('/login',function(){
+    return view('login');
+});
+
 /*
  * Associo le route per i Controller (per vedere come accedere ad una determinata funzione,
  * eseguire il comando "php artisan
