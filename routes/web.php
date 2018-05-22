@@ -138,21 +138,21 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
         $item_array = array();
         foreach ($attributes as $attribute) {
             if(is_array($item_json[$attribute->attr_json])){
-                $sub_fields = $attribute->hasMany('App\subField','id_super_field')->get();
+                $sub_fields = $attribute->hasMany('App\subField','id_super_field')->get()->pluck('sub_attr_json');
                 $sub_array_json = $item_json[$attribute->attr_json];
-                $item_serializated = false;
+                $array_item_serialized = array();
+                $item_serializated = array();
                 foreach ($sub_array_json as $sub_item_json){
-                    foreach ($sub_fields as $sub_field){
-                        $item_serializated .= $sub_item_json[$sub_field->sub_attr_json];
-                    }
+                    $item_serializated = array_where($sub_item_json, function($value, $key) use ($sub_fields){
+                        $bool = ($sub_fields->search($key));
+                        return gettype($bool)=="boolean" ? false : true;
+                    });
+                    $array_item_serialized[] = $item_serializated;
                 }
-                $item_array[$attribute->name] = $item_serializated;
-                /*
-                $collection = collect($item_json[$attribute->attr_json]);
-                $item_array[$attribute->name] = $collection->implode('last_name',';');
-                */
+                $item_array[$attribute->name] = implode(", ",array_map(function($a){
+                    return implode(" ",$a);
+                    },$array_item_serialized));
             }
-
             else
                 $item_array[$attribute->name] = $item_json[$attribute->attr_json];
         }
