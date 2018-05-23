@@ -164,67 +164,76 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
              *
              *      "attributo" => "valore_1 valore_2 ..."
              */
-            if(is_array($itemJson[$attribute->attr_json])){
-                /*
-                 * Appurato che l'item del JSON in analisi sia a sua volta un sotto-array, ricaviamo
-                 * i sotto-campi associati all'attributo e definiti dagli admin
-                 *
-                 * "pluck()" funge similmente da select "attributo", ritornando quindi una collezione di dati
-                 * rappresentati da quel solo attributo. Serve per poter usufruire del metodo "search()"
-                 * che è presente più avanti
-                 */
-                $subFields = $attribute->hasMany('App\subField','id_super_field')->get()->pluck('sub_attr_json');
-                /*
-                 * Ricavo effettivamente l'attributo rappresentato come array
-                 */
-                $subArrayJson = $itemJson[$attribute->attr_json];
-                /*
-                 * Inizializzo l'array che "filtrerà" i dati presenti nell'array associato all'attributo
-                 * in base ai sotto-campi richiesti di essere visualizzati (ovvero, tra quelli presenti nel modell
-                 * subFields)
-                 */
-                $arrayItemFiltered = array();
-                /*
-                 * scandisco l'array associato all'attributo, ricavando così i sotto-campi quali lo definiscono
-                 */
-                foreach ($subArrayJson as $subItemJson){
+            if (isset($itemJson[$attribute->attr_json])) {
+                if (is_array($itemJson[$attribute->attr_json])) {
                     /*
-                     * Brevemente, ad ogni elemento dell'"arrayItemSerialized" vengono riportati
-                     * le coppie "sotto-campo" => "valore" interessati (ovvero cui sotto-campo è definito
-                     * nel modello subFields definiti dagli admin)
+                     * Appurato che l'item del JSON in analisi sia a sua volta un sotto-array, ricaviamo
+                     * i sotto-campi associati all'attributo e definiti dagli admin
+                     *
+                     * "pluck()" funge similmente da select "attributo", ritornando quindi una collezione di dati
+                     * rappresentati da quel solo attributo. Serve per poter usufruire del metodo "search()"
+                     * che è presente più avanti
                      */
-                    $arrayItemFiltered[] = array_where($subItemJson, function($value, $key) use ($subFields){
-                        $index = ($subFields->search($key));
+                    $subFields = $attribute->hasMany('App\subField', 'id_super_field')->get()->pluck('sub_attr_json');
+                    /*
+                     * Ricavo effettivamente l'attributo rappresentato come array
+                     */
+                    $subArrayJson = $itemJson[$attribute->attr_json];
+                    /*
+                     * Inizializzo l'array che "filtrerà" i dati presenti nell'array associato all'attributo
+                     * in base ai sotto-campi richiesti di essere visualizzati (ovvero, tra quelli presenti nel modell
+                     * subFields)
+                     */
+                    $arrayItemFiltered = array();
+                    /*
+                     * scandisco l'array associato all'attributo, ricavando così i sotto-campi quali lo definiscono
+                     */
+                    foreach ($subArrayJson as $subItemJson) {
                         /*
-                         * In caso la chiave sia presente nel modello subFields, ritorna l'indice in cui
-                         * è definito nel suddetto modello, altrimenti ritorna false (vedere definizione
-                         * del metodo nel paragrafo "Collections" della documentazione di Laravel).
-                         *
-                         * il motivo per cui effettuo questo controllo è perchè, in alcuni casi, l'indice
-                         * associato alla chiave ritrovata nel modello assume valore 0. Ma il problema è che
-                         * il metodo "array_where" permette di definire un criterio ,tramite una funzione ad hoc,
-                         * per poter filtrare i dati desiderati o no, ma per farlo tale funzione deve ritornare
-                         * necessariamente un booleano. Non sarebbe un problema in sè, se non fosse per il fatto
-                         * che l'indice 0 lo conta come se fosse un "false"
-                         *
-                         * per ovviare al problema, quindi, si controlla che il risultato della ricerca sia o meno
-                         * un boolean. In caso affermativo, allora vuol dire che è un "false" e quindi non ha trovato
-                         * la chiave nel modello, altrimenti vuol dire che il valore è un intero e quindi ha ritrovato
-                         * la chiave
+                         * Brevemente, ad ogni elemento dell'"arrayItemSerialized" vengono riportati
+                         * le coppie "sotto-campo" => "valore" interessati (ovvero cui sotto-campo è definito
+                         * nel modello subFields definiti dagli admin)
                          */
-                        return gettype($index)!="boolean";
-                    });
+                        $arrayItemFiltered[] = array_where($subItemJson, function ($value, $key) use ($subFields) {
+                            $index = ($subFields->search($key));
+                            /*
+                             * In caso la chiave sia presente nel modello subFields, ritorna l'indice in cui
+                             * è definito nel suddetto modello, altrimenti ritorna false (vedere definizione
+                             * del metodo nel paragrafo "Collections" della documentazione di Laravel).
+                             *
+                             * il motivo per cui effettuo questo controllo è perchè, in alcuni casi, l'indice
+                             * associato alla chiave ritrovata nel modello assume valore 0. Ma il problema è che
+                             * il metodo "array_where" permette di definire un criterio ,tramite una funzione ad hoc,
+                             * per poter filtrare i dati desiderati o no, ma per farlo tale funzione deve ritornare
+                             * necessariamente un booleano. Non sarebbe un problema in sè, se non fosse per il fatto
+                             * che l'indice 0 lo conta come se fosse un "false"
+                             *
+                             * per ovviare al problema, quindi, si controlla che il risultato della ricerca sia o meno
+                             * un boolean. In caso affermativo, allora vuol dire che è un "false" e quindi non ha trovato
+                             * la chiave nel modello, altrimenti vuol dire che il valore è un intero e quindi ha ritrovato
+                             * la chiave
+                             */
+                            return gettype($index) != "boolean";
+                        });
+                    }
+                    /*
+                     * terminato l'analisi dell'array associato all'attributo, si provvede infine a serializzare
+                     * l'array "filtrato", così da ottenere il formato "attribute" => "valore1 valore2 ..."
+                     */
+                    $itemArray[$attribute->name] = implode(", ", array_map(function ($a) {
+                        return implode(" ", $a);
+                    }, $arrayItemFiltered));
+                } else {
+                    $itemArray[$attribute->name] = $itemJson[$attribute->attr_json];
                 }
-                /*
-                 * terminato l'analisi dell'array associato all'attributo, si provvede infine a serializzare
-                 * l'array "filtrato", così da ottenere il formato "attribute" => "valore1 valore2 ..."
-                 */
-                $itemArray[$attribute->name] = implode(", ",array_map(function($a){
-                    return implode(" ",$a);
-                    },$arrayItemFiltered));
             }
-            else
-                $itemArray[$attribute->name] = $itemJson[$attribute->attr_json];
+            else{
+                $fieldsToSerialize = explode(" ", $attribute->attr_json);
+                $itemArray[$attribute->name] = implode(" ", array_where($itemJson, function ($value, $key) use ($fieldsToSerialize) {
+                    $index = array_search($key, $fieldsToSerialize);
+                    return gettype($index) != "boolean";
+                }));
+            }
         }
         $result_array[] = $itemArray;
     }
