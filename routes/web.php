@@ -32,8 +32,8 @@ Route::resource('providers','ApiProviderController');
  * del FieldController non ha senso di essere rilevata
  */
 Route::resource('fields','FieldController')->except(['create','show']);
-Route::resource('utente','UtenteController');
-Route::resource('gruppo','GruppoController');
+Route::resource('utente','UserController');
+Route::resource('gruppo','GroupController');
 Route::resource('options','SearchOptionController')->except(['show']);
 Route::resource('subFields','SubFieldController');
 Route::get('subFields/create/{field}','SubFieldController@create');

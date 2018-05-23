@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\utente;
+use App\User;
 use Illuminate\Http\Request;
 
-class UtenteController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class UtenteController extends Controller
             'password' => 'required',
             'email' => 'required|email'
         ]);
-        if(utente::findUtente($utente['email'],$utente['password']))
+        if(User::findUser($utente['email'],$utente['password']))
             return back()->with('success','Accesso effettuato');
         else
             return back()->withErrors('errors','Utente non trovato');
@@ -47,7 +47,7 @@ class UtenteController extends Controller
             'password' => 'required',
             'email' => 'required|email'
         ]);
-        utente::create($utente);
+        User::create($utente);
         return back();
     }
 
@@ -59,7 +59,7 @@ class UtenteController extends Controller
      */
     public function show($id)
     {
-        $utente = utente::find($id);
+        $utente = User::find($id);
         if(!empty($utente))
             return view('search.my_profile',compact('utente'));
         else
