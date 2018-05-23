@@ -131,32 +131,102 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
      * dal JSON, ricavo i dati presenti nei campi "interessati" ( per interessati, si intendono i campi che sono
      * stati definiti nel modello Fields)
      */
-    foreach ($json as $item_json) {
+    foreach ($json as $itemJson) {
         /*
          * per ogni entità, definisco un "item_array", quali conterrà solamente i valori dei campi "interessati"
          */
-        $item_array = array();
+        $itemArray = array();
         foreach ($attributes as $attribute) {
-            if(is_array($item_json[$attribute->attr_json])){
-                $sub_fields = $attribute->hasMany('App\subField','id_super_field')->get()->pluck('sub_attr_json');
-                $sub_array_json = $item_json[$attribute->attr_json];
-                $array_item_serialized = array();
-                $item_serializated = array();
-                foreach ($sub_array_json as $sub_item_json){
-                    $item_serializated = array_where($sub_item_json, function($value, $key) use ($sub_fields){
-                        $bool = ($sub_fields->search($key));
-                        return gettype($bool)=="boolean" ? false : true;
+            /*
+             * Controllo se, nell'item del JSON in analisi, non siano definiti altri "sotto-campi" quali lo definiscono
+             * (ergo, se è un array). Solitamente questo capita per elencare i dati in merito, per esempio, agli autori
+             * degli articoli, i quali possono essere più di una persona e possono essere definiti ciascuno con campi
+             * tipo "first_name", "last_name", ecc...)
+             *
+             * Questo controllo serve perchè la pagina che provvederà a mostrare i risultati della ricerca, accetterà
+             * solo dati che sono nel seguente formato:
+             *
+             *          "attributo" => "valore"
+             *
+             * (i dati saranno rappresentati in un array , ed ogni elemento dell'array sarà suddiviso in attributi)
+             *
+             * Nel caso ci siano dei sotto-campi (riprendendo l'esempio degli autori),
+             * i dati dovrebbero essere rappresentati come :
+             *
+             *      "attributo" => {
+             *          "sotto_campo_1" => "valore_1",
+             *          "sotto_campo_2" => "valore_2",
+             *          ...
+             *          }
+             *
+             * Ma dato che la pagina non si aspetta una rappresentazione simile, si "serializzano" i sotto campi,
+             * ricavando :
+             *
+             *      "attributo" => "valore_1 valore_2 ..."
+             */
+            if(is_array($itemJson[$attribute->attr_json])){
+                /*
+                 * Appurato che l'item del JSON in analisi sia a sua volta un sotto-array, ricaviamo
+                 * i sotto-campi associati all'attributo e definiti dagli admin
+                 *
+                 * "pluck()" funge similmente da select "attributo", ritornando quindi una collezione di dati
+                 * rappresentati da quel solo attributo. Serve per poter usufruire del metodo "search()"
+                 * che è presente più avanti
+                 */
+                $subFields = $attribute->hasMany('App\subField','id_super_field')->get()->pluck('sub_attr_json');
+                /*
+                 * Ricavo effettivamente l'attributo rappresentato come array
+                 */
+                $subArrayJson = $itemJson[$attribute->attr_json];
+                /*
+                 * Inizializzo l'array che "filtrerà" i dati presenti nell'array associato all'attributo
+                 * in base ai sotto-campi richiesti di essere visualizzati (ovvero, tra quelli presenti nel modell
+                 * subFields)
+                 */
+                $arrayItemFiltered = array();
+                /*
+                 * scandisco l'array associato all'attributo, ricavando così i sotto-campi quali lo definiscono
+                 */
+                foreach ($subArrayJson as $subItemJson){
+                    /*
+                     * Brevemente, ad ogni elemento dell'"arrayItemSerialized" vengono riportati
+                     * le coppie "sotto-campo" => "valore" interessati (ovvero cui sotto-campo è definito
+                     * nel modello subFields definiti dagli admin)
+                     */
+                    $arrayItemFiltered[] = array_where($subItemJson, function($value, $key) use ($subFields){
+                        $index = ($subFields->search($key));
+                        /*
+                         * In caso la chiave sia presente nel modello subFields, ritorna l'indice in cui
+                         * è definito nel suddetto modello, altrimenti ritorna false (vedere definizione
+                         * del metodo nel paragrafo "Collections" della documentazione di Laravel).
+                         *
+                         * il motivo per cui effettuo questo controllo è perchè, in alcuni casi, l'indice
+                         * associato alla chiave ritrovata nel modello assume valore 0. Ma il problema è che
+                         * il metodo "array_where" permette di definire un criterio ,tramite una funzione ad hoc,
+                         * per poter filtrare i dati desiderati o no, ma per farlo tale funzione deve ritornare
+                         * necessariamente un booleano. Non sarebbe un problema in sè, se non fosse per il fatto
+                         * che l'indice 0 lo conta come se fosse un "false"
+                         *
+                         * per ovviare al problema, quindi, si controlla che il risultato della ricerca sia o meno
+                         * un boolean. In caso affermativo, allora vuol dire che è un "false" e quindi non ha trovato
+                         * la chiave nel modello, altrimenti vuol dire che il valore è un intero e quindi ha ritrovato
+                         * la chiave
+                         */
+                        return gettype($index)!="boolean";
                     });
-                    $array_item_serialized[] = $item_serializated;
                 }
-                $item_array[$attribute->name] = implode(", ",array_map(function($a){
+                /*
+                 * terminato l'analisi dell'array associato all'attributo, si provvede infine a serializzare
+                 * l'array "filtrato", così da ottenere il formato "attribute" => "valore1 valore2 ..."
+                 */
+                $itemArray[$attribute->name] = implode(", ",array_map(function($a){
                     return implode(" ",$a);
-                    },$array_item_serialized));
+                    },$arrayItemFiltered));
             }
             else
-                $item_array[$attribute->name] = $item_json[$attribute->attr_json];
+                $itemArray[$attribute->name] = $itemJson[$attribute->attr_json];
         }
-        $result_array[] = $item_array;
+        $result_array[] = $itemArray;
     }
     return back()->with('jsonAPI',$result_array);
 });
