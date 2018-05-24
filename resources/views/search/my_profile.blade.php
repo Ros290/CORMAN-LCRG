@@ -16,14 +16,17 @@
                 @endforeach
             </ul>
         </div><br />
-@endif
-          <p>Nome : {{$utente->name}}</p><br>
-          <p>E-Mail : {{$utente->email}}</p><br>
+    @endif
+    <p>Nome : {{$utente->name}}</p><br>
+    <p>E-Mail : {{$utente->email}}</p><br>
     <h1> Descrizione </h1>
-    <textarea name="descrizione" rows="15" cols=150">
+    <form method="post" action={{url('utente/'.$utente->id)}}>
+        {{csrf_field()}}
+        {{ method_field('PUT')}}
+    <textarea name="testo" rows="15" cols=150">
+         {{$utente->description}}
         </textarea>
-    <form action=http://www.html.it target=”_blank”>
-        <input type=”submit”value=”visita HTML.it”>
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Descrizione</button>
     </form>
 </div>
 </body>

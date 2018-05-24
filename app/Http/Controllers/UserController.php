@@ -86,7 +86,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate(request(),[
+            'descrizione' => 'nullable'
+        ]);
+        $utente = User::find($id);
+        $utente->description = $request->get('testo');
+        $utente->save();
+        return back();
     }
 
     /**
