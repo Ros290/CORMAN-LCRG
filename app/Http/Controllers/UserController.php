@@ -74,7 +74,14 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Ricava dal database il modello Utente con id = $id e lo associa alla variabile $utente
+        $utente = User::find($id);
+        //Se è vuoto, vuol dire che nel database non esiste alcun utente con id = $id, quindi mostrerà il messaggio
+        //di errore 404. Altrimenti ritorna la pagina desiderata, passandogli la variabile $utente.
+        if(!empty($utente))
+            return view('search.my_profile_edit',compact('utente'));
+        else
+            abort(404);
     }
 
     /**
@@ -86,12 +93,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //verifico che il campo "descrizione", ricavato dalla pagina quale ha richiamato il metodo, sia stato inserito
+        //o meno (nullable)
         $this->validate(request(),[
-            'descrizione' => 'nullable'
+            'testo' => 'nullable'
         ]);
+        //Ricava dal database il modello Utente con id = $id e lo associa alla variabile $utente
         $utente = User::find($id);
+        //dal modello utente, inserisco la descrizione (salvato nella variabile 'testo') all'interno del campo "description"
         $utente->description = $request->get('testo');
+        //salvo le modifiche effettuate sul modello Utente
         $utente->save();
+        //ritorno alla pagina precedente
         return back();
     }
 

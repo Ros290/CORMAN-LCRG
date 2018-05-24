@@ -15,7 +15,7 @@
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div><br />
+        </div><br/>
     @endif
     <p>Nome : {{$utente->name}}</p><br>
     <p>E-Mail : {{$utente->email}}</p><br>
@@ -28,6 +28,7 @@
         </textarea>
         <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Descrizione</button>
     </form>
+    <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
 </div>
 </body>
 </html>
