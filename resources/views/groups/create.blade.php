@@ -13,18 +13,27 @@
             x.setAttribute("type", "text");
             x.setAttribute("value","");
             var node = document.createElement("P");
+            var t = document.createTextNode("Email ");
+            var Email = document.getElementById("Email");
+            var number = Email.innerHTML;
+            number++;
+            var node = document.createElement("P");
+            node.setAttribute("id", "Email");
+            var s = document.createTextNode(number);
+            node.appendChild(t);
+            node.appendChild(s);
             node.appendChild(x);
             divMail.appendChild(node);
         }
     </script>
 </head>
 <div class="container">
-        <div>
-            <button onclick="myFunction()" class = "btn btn-success">+ Aggiungi Mail</button>
-        </div>
+    <div>
+        <button onclick="myFunction()" class = "btn btn-success">+ Aggiungi Mail</button>
+    </div>
 
     <div id="myList" class="align-items-baseline">
-        <p><input type="text" id="email0"></p>
+        <p>Email <b id="Email">0 </b><input type="text" id="email0"></p>
     </div>
 </div>
 </body>
