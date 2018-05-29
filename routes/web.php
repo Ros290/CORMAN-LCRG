@@ -39,8 +39,8 @@ Route::resource('subFields','SubFieldController');
 Route::get('subFields/create/{field}','SubFieldController@create');
 Route::post('subFields/{field}','SubFieldController@store');
 
-Route::get('home', function(){
-    return view('home')->with('options',SearchOption::all());
+Route::get('index', function(){
+    return view('index')->with('options',SearchOption::all());
 });
 
 Route::get('search/{option}',function(SearchOption $option){
@@ -247,3 +247,6 @@ Route::post('search',function(Response $response){
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
