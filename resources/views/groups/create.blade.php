@@ -7,23 +7,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script>
         function myFunction() {
-            var divMail = document.getElementById("myList");
-            var lastChild = divMail.lastElementChild;
-            var x = document.createElement("INPUT");
-            x.setAttribute("type", "text");
-            x.setAttribute("value","");
-            var node = document.createElement("P");
-            var t = document.createTextNode("Email ");
-            var Email = document.getElementById("Email");
-            var number = Email.innerHTML;
-            number++;
-            var node = document.createElement("P");
-            node.setAttribute("id", "Email");
-            var s = document.createTextNode(number);
-            node.appendChild(t);
-            node.appendChild(s);
-            node.appendChild(x);
-            divMail.appendChild(node);
+            /*
+            associo a "listMail" il div all'interno di cui definirò i nuovi campi email
+             */
+            var listMail = document.getElementById("myList");
+            /*
+            essendo ogni elemento di "listMail" composto nel formato :
+
+            <p>
+                <input type=..>
+            </p>
+
+            pertanto il primo "lastElementChild" mi restituirà il riferimento all'ultimo
+            tag "P" definito all'interno di div. Dato che non ci interessa, ricavo
+            a sua volta l'ultimo (nonchè l'unico) elemento presente all'interno di "P"
+            quale è, appunto, il riferimento al tag "INPUT"
+             */
+            var lastMail = listMail.lastElementChild.lastElementChild;
+            /*
+            Dato che abbiamo scelto di definire gli identificativi di ciascun campo
+            nel formato "email<#numero>", allora ricaviamo l'id dell'ultimo tag
+            "INPUT" ricavato e incrementiamo la parte intera dell'id.
+             */
+            var idNewMail = parseInt(lastMail.getAttribute("id").substr(5)) + 1;
+            /*
+            Definisco un nuovo tago "INPUT", con l'id incrementato, dopo di che lo "appendo"
+            agli altri elementi già presenti del tag "div"
+             */
+            var newMail = document.createElement("INPUT");
+            newMail.setAttribute("type","text");
+            newMail.setAttribute("id","email" + idNewMail);
+            newMail.setAttribute("value","email " + idNewMail);
+            var p = document.createElement("P");
+            p.appendChild(newMail);
+            listMail.appendChild(p);
         }
     </script>
 </head>
@@ -33,7 +50,7 @@
     </div>
 
     <div id="myList" class="align-items-baseline">
-        <p>Email <b id="Email">0 </b><input type="text" id="email0"></p>
+        <p><input type="text" id="email0" value="email 0"></p>
     </div>
 </div>
 </body>
