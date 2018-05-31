@@ -19,10 +19,12 @@
 @endif
     <p>Nome : <textarea name="testo" rows="1" cols=30">
          {{$utente->name}}
-        </textarea></p><br>
+        </textarea>
+        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a></p><br>
     <p>E-Mail : <textarea name="testo" rows="1" cols=30">
          {{$utente->email}}
-        </textarea></p><br>
+        </textarea>
+        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a></p><br>
     <h1> Descrizione </h1>
     <form method="post" action={{url('utente/'.$utente->id)}}>
         {{csrf_field()}}
@@ -30,8 +32,8 @@
         <textarea name="testo" rows="15" cols=150">
          {{$utente->description}}
         </textarea>
+        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a>
     </form>
-    <a href="{{url('edit/'.$utente->id.'/edit')}}" class="btn btn-success">Salva cambiamenti</a>
 </div>
 </body>
 </html>
