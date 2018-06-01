@@ -17,14 +17,21 @@
         </ul>
     </div><br/>
 @endif
-    <p>Nome : <textarea name="testo" rows="1" cols=30">
+    <p>Nome :{{csrf_field()}}
+        {{ method_field('PUT')}}
+        <textarea name="testo" rows="1" cols=30">
          {{$utente->name}}
         </textarea>
-        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a></p><br>
-    <p>E-Mail : <textarea name="testo" rows="1" cols=30">
+        <a href="{{url('utente/'.$utente->save)}}" class="btn btn-success">Torna indietro</a>
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Nome</button>
+    <p>E-Mail :
+        {{csrf_field()}}
+        {{ method_field('PUT')}}
+        <textarea name="testo" rows="1" cols=30">
          {{$utente->email}}
         </textarea>
-        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a></p><br>
+        <a href="{{url('utente/'.$utente->save)}}" class="btn btn-success">Torna indietro</a>
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Email</button>
     <h1> Descrizione </h1>
     <form method="post" action={{url('utente/'.$utente->id)}}>
         {{csrf_field()}}
@@ -32,8 +39,9 @@
         <textarea name="testo" rows="15" cols=150">
          {{$utente->description}}
         </textarea>
-        <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Salva cambiamenti</a>
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
     </form>
+    <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Torna indietro</a>
 </div>
 </body>
 </html>
