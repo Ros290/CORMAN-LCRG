@@ -17,30 +17,46 @@
         </ul>
     </div><br/>
 @endif
-    <p>Nome :{{csrf_field()}}
+    <p>Nome :<form method="post" action={{url('utente/'.$utente->id)}}>
+    {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
         {{ method_field('PUT')}}
-        <textarea name="testo" rows="1" cols=30">
+        <textarea type="text" name="nome" rows="1" cols=30">
          {{$utente->name}}
         </textarea>
-        <a href="{{url('utente/'.$utente->save)}}" class="btn btn-success">Torna indietro</a>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Nome</button>
-    <p>E-Mail :
-        {{csrf_field()}}
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
+    </form></p>
+    <p>E-Mail :<form method="post" action={{url('utente/'.$utente->id)}}
+    {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
         {{ method_field('PUT')}}
-        <textarea name="testo" rows="1" cols=30">
+        <textarea type="text" name="email" rows="1" cols=30">
          {{$utente->email}}
         </textarea>
-        <a href="{{url('utente/'.$utente->save)}}" class="btn btn-success">Torna indietro</a>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Email</button>
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
+    </form></p>
     <h1> Descrizione </h1>
     <form method="post" action={{url('utente/'.$utente->id)}}>
-        {{csrf_field()}}
+        <!--
+        Come ti accennai tempo fa, se sei interessato ad inviare una serie di dati da una pagina all'altra,
+        ti basta riportare tali campi all'interno di un tag FORM. In questo modo, dovrai definire l'url di destinazione
+        solo una volta
+
+        l'unica cosa che devi fare, quindi, è quello di mettere allZZinterno di form gli altri campi.
+
+        Dopo di che, assicurati che ciascun campo d'istentazione sia riconoscibile tramite un univoco nome.
+        Questo perchè, quando passerai i dati al controller, essi saranno accessibili solo tramite il nome.
+        Per esempio, quando sarai nel controller e vorrai ricavare il valore contenuto nella barra del nome
+
+                <input type="text" name="idCampo1" [...]>
+
+        Allora dovrai usare "idCampo1" per leggerlo nel controller
+        -->
+        {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
         {{ method_field('PUT')}}
-        <textarea name="testo" rows="15" cols=150">
+        <textarea type="text" name="testo" rows="15" cols=150">
          {{$utente->description}}
         </textarea>
         <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
-    </form>
+    </form></p>
     <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Torna indietro</a>
 </div>
 </body>

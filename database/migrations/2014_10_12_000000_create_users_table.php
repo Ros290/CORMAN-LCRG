@@ -13,6 +13,9 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        /*
+         * Qui sono presenti i nomi dei campi del modello Utente
+         */
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

@@ -91,23 +91,38 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        //verifico che il campo "descrizione", ricavato dalla pagina quale ha richiamato il metodo, sia stato inserito
-        //o meno (nullable)
+            //verifico che il campo "descrizione", ricavato dalla pagina quale ha richiamato il metodo, sia stato inserito
+            //o meno (nullable)
+
+            /*
+             * Qui dentro devi passare il nome dei campi quali contengono i dati di interesse e definire le condizioni
+             * per ritenerli "accettabili" (per vedere le clausole applicabili, vai su laravel documentazione -> Basics -> Validations)
+             *
+             * Per il resto, basta che modifichi il modello utente che ricavi dal database con i nuovi valori
+             */
         $this->validate(request(),[
-            'testo' => 'nullable'
+            'nome' => 'string'
+        ]);
+        $this->validate(request(),[
+            'email' => 'string'
+        ]);
+        $this->validate(request(),[
+                'testo' => 'nullable'
         ]);
         //Ricava dal database il modello Utente con id = $id e lo associa alla variabile $utente
         $utente = User::find($id);
         //dal modello utente, inserisco la descrizione (salvato nella variabile 'testo') all'interno del campo "description"
+        $utente->name = $request->get('nome');
+        $utente->email = $request->get('email');
         $utente->description = $request->get('testo');
         //salvo le modifiche effettuate sul modello Utente
         $utente->save();
         //ritorno alla pagina precedente
         return back();
     }
-
     /**
      * Remove the specified resource from storage.
      *
