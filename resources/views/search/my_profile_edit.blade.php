@@ -23,18 +23,14 @@
         <textarea type="text" name="nome" rows="1" cols=30">
          {{$utente->name}}
         </textarea>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
-    </form></p>
-    <p>E-Mail :<form method="post" action={{url('utente/'.$utente->id)}}
-    {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
-        {{ method_field('PUT')}}
+        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button></p>
+    <p>E-Mail :
         <textarea type="text" name="email" rows="1" cols=30">
          {{$utente->email}}
         </textarea>
         <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
-    </form></p>
+    </p>
     <h1> Descrizione </h1>
-    <form method="post" action={{url('utente/'.$utente->id)}}>
         <!--
         Come ti accennai tempo fa, se sei interessato ad inviare una serie di dati da una pagina all'altra,
         ti basta riportare tali campi all'interno di un tag FORM. In questo modo, dovrai definire l'url di destinazione
@@ -50,8 +46,6 @@
 
         Allora dovrai usare "idCampo1" per leggerlo nel controller
         -->
-        {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
-        {{ method_field('PUT')}}
         <textarea type="text" name="testo" rows="15" cols=150">
          {{$utente->description}}
         </textarea>
