@@ -17,19 +17,17 @@
         </ul>
     </div><br/>
 @endif
-    <p>Nome :<form method="post" action={{url('utente/'.$utente->id)}}>
+    <p>Nome :
+    <form method="post" action={{url('utente/'.$utente->id)}}>
     {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
         {{ method_field('PUT')}}
-        <textarea type="text" name="nome" rows="1" cols=30">
+        <input type="text" name="nome" rows="1" cols=30">
          {{$utente->name}}
-        </textarea>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button></p>
+         </input></p>
     <p>E-Mail :
-        <textarea type="text" name="email" rows="1" cols=30">
+        <input type="text" name="email" rows="1" cols=30">
          {{$utente->email}}
-        </textarea>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Cambiamenti</button>
-    </p>
+        </input></p>
     <h1> Descrizione </h1>
         <!--
         Come ti accennai tempo fa, se sei interessato ad inviare una serie di dati da una pagina all'altra,
