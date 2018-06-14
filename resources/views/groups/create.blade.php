@@ -7,6 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <script>
         function myFunction() {
+            /*Aggiungere crea nuovo grupppo*/
+
             /*
             associo a "listMail" il div all'interno di cui definirò i nuovi campi email
              */
