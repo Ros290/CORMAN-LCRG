@@ -40,6 +40,7 @@ class FieldController extends Controller
             'name' => 'required',
             'attr_url' => 'required',
             'attr_json' => 'required',
+            'on_popup' => 'required',
             'values' => 'required',
             'id_option' => 'required|numeric'
         ]);

@@ -11,7 +11,7 @@
             if (document.getElementById(fieldsTag).style.display == 'none') {
                 document.getElementById(fieldsTag).style.display = 'table-cell';
             }
-            else document.getElementById(fieldsTag).style.display = 'none';
+            else document.getElementById(fieldsTag).style.display = 'none');
         }
     </script>
 </head>

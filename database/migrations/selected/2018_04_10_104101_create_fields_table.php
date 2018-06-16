@@ -27,6 +27,13 @@ class CreateFieldsTable extends Migration
              * di una data opzione
              */
             $table->string('attr_json');
+            /*
+             * indica se l'attributo in questione deve essere mostrato nella finestra di popup
+             * o meno (per intenderci, la finestra popup è una piccola finestra che viene
+             * visualizzata quando si passa il cursore sopra il campo. Serve per specificare
+             * i dati presenti nel campo, senza però rendere "riempire" di dati la pagina)
+             */
+            $table->boolean('on_popup');
             $table->boolean('values');
             /*
              * 'id_option' è la chiave secondaria, indirizzata all'opzione quale compone il campo

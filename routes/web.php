@@ -123,6 +123,7 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
     }
     curl_close($curl);
     $result_array = array();
+    $popup_array = array();
     /*
      * "decodifico" il risultato in formato JSON
      */
@@ -135,8 +136,10 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
         /*
          * per ogni entità, definisco un "item_array", quali conterrà solamente i valori dei campi "interessati"
          */
-        $itemArray = array();
+        $itemTable = array();
+        $itemPopup = array();
         foreach ($attributes as $attribute) {
+            ($attribute->on_popup) ?  $itemArray = &$itemPopup : $itemArray = &$itemTable;
             /*
              * Controllo se, nell'item del JSON in analisi, non siano definiti altri "sotto-campi" quali lo definiscono
              * (ergo, se è un array). Solitamente questo capita per elencare i dati in merito, per esempio, agli autori
@@ -235,7 +238,7 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
                 }));
             }
         }
-        $result_array[] = $itemArray;
+        $result_array[] = array('table' => $itemTable, 'popup' => $itemPopup);
     }
     return back()->with('jsonAPI',$result_array);
 });
