@@ -43,7 +43,13 @@
             var p = document.createElement("P");
             p.appendChild(newMail);
             listMail.appendChild(p);
+
         }
+
+        function myFunction2() {
+
+        }
+
     </script>
 </head>
 <div class="container">
@@ -53,6 +59,10 @@
 
     <div id="myList" class="align-items-baseline">
         <p><input type="text" id="email0" value="email 0"></p>
+    </div>
+
+    <div>
+        <button onclick="myFunction2()" class = "btn btn-success">+ Crea Gruppo</button>
     </div>
 </div>
 </body>
