@@ -139,6 +139,11 @@ Route::post('result/{option}',function(Request $request, SearchOption $option){
         $itemTable = array();
         $itemPopup = array();
         foreach ($attributes as $attribute) {
+            /*
+             * dato che ci potrebbero essere attributi che dovranno essere visualizzati in una apposita finestra
+             * di popup, passiamo ad "itemArray" il riferimento all'array su cui bisogna inserire
+             * i campi da mostrare nella tabella ("itemTable") o nella finestra di popup ("itemPopup")
+             */
             ($attribute->on_popup) ?  $itemArray = &$itemPopup : $itemArray = &$itemTable;
             /*
              * Controllo se, nell'item del JSON in analisi, non siano definiti altri "sotto-campi" quali lo definiscono

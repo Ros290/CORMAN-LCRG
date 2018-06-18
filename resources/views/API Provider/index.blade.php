@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Index Page</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <script>
-    </script>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <br />
     @if (\Session::has('success'))
@@ -55,5 +47,4 @@
         </tbody>
     </table>
 </div>
-</body>
-</html>
+    @endsection

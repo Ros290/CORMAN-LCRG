@@ -1,57 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <meta charset="utf-8">
-    <title>CORMAN </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <style>
-        .description {
-            position:absolute;
-            border:1px solid #000;
-            background: #ffffff;
-        }
-    </style>
-    <script>
-        function showOrHide(idField){
-            var checkBox = document.getElementById('cbf' + idField);
-            var inputField = document.getElementById('if' + idField);
-            if(checkBox.checked === true){
-                inputField.style.display = 'table-cell';
-            }
-            else inputField.style.display = 'none';
-        }
-        //TODO: implementare funzione per mostrare popup e caricare modifica modello Fields
+@extends('layouts.app')
 
-        function carmillOn(idCarmilla){
-            var carmilla = document.getElementById(idCarmilla);
-            carmilla.style.display = 'block';
-            /*
-            var div = x.lastElementChild;
-            div.display = 'table-cell';
-            */
+@section('content')
+<script>
+    function showOrHide(idField){
+        var checkBox = document.getElementById('cbf' + idField);
+        var inputField = document.getElementById('if' + idField);
+        if(checkBox.checked === true){
+            inputField.style.display = 'table-cell';
         }
+        else inputField.style.display = 'none';
+    }
 
-        function carmillOff(idCarmilla){
-            var carmilla = document.getElementById(idCarmilla);
-            carmilla.style.display = 'none';
-            /*
-            var div = x.lastElementChild.lastElementChild;
-            div.display = 'none';
-            */
-        }
+    function carmillOn(idCarmilla){
+        var carmilla = document.getElementById(idCarmilla);
+        carmilla.style.display = 'block';
+    }
 
-        /*
-        $(".tiptext").mouseover(function() {
-            $(this).children(".description").show();
-        }).mouseout(function() {
-            $(this).children(".description").hide();
-        });
-        */
+    function carmillOff(idCarmilla){
+        var carmilla = document.getElementById(idCarmilla);
+        carmilla.style.display = 'none';
+    }
 
-    </script>
-</head>
-<body>
+</script>
 <div class="container">
     <h2>Search {{$option['name']}}</h2><br/>
     @if ($errors->any())
@@ -71,7 +41,7 @@
         </div>
     </div>
     <form method="post" action="{{url('result/'.$option['id'])}}">
-        {{ csrf_field() }}
+        @csrf
         <div class="row" id="fieldsTag">
             @foreach($attributes as $attribute)
                 <div class="form-group col-md-4" id="if{{$attribute['id']}}" style="display:none">
@@ -100,14 +70,19 @@
             @foreach(\Session::get('jsonAPI') as $element_array)
                 <tr>
                     @foreach($element_array['table'] as $value_table)
-                        <td>
-                            <div onmouseover="javascript:carmillOn({{"carmilla".$loop->parent->index}})" onmouseout="javascript:carmillOff({{"carmilla".$loop->parent->index}})">
+                        <td onMouseOver="javascript:carmillOn('{{"carmilla".$loop->parent->index}}')" onmouseout="javascript:carmillOff('{{"carmilla".$loop->parent->index}}')">
                                 {{$value_table}}
                             <div class="description" id="{{"carmilla".$loop->parent->index}}" style="display:none">
+                                <table class="table">
+                                <tbody>
                                 @foreach($element_array['popup'] as $field_popup => $value_popup)
-                                    <p>{{$field_popup.' : '.$value_popup}}</p>
+                                    <tr>
+                                        <th>{{$field_popup}}</th>
+                                        <td>{{$value_popup}}</td>
+                                    </tr>
                                 @endforeach
-                            </div>
+                                </tbody>
+                                </table>
                             </div>
                         </td>
                     @endforeach
@@ -117,5 +92,4 @@
         </table>
     @endif
 </div>
-</body>
-</html>
+@endsection

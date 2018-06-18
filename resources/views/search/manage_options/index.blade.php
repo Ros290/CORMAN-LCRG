@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Index Page</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <script>
-        function showOrHide(fieldsTag)
-        {
-            if (document.getElementById(fieldsTag).style.display == 'none') {
-                document.getElementById(fieldsTag).style.display = 'table-cell';
-            }
-            else document.getElementById(fieldsTag).style.display = 'none');
+@extends('layouts.app')
+
+@section('content')
+<script>
+    function showOrHide(fieldsTag)
+    {
+        if (document.getElementById(fieldsTag).style.display == 'none') {
+            document.getElementById(fieldsTag).style.display = 'table-cell';
         }
-    </script>
-</head>
-<body>
+        else document.getElementById(fieldsTag).style.display = 'none';
+    }
+</script>
 <div class="container">
     <br />
     @if (\Session::has('success'))
@@ -64,5 +58,4 @@
         </table>
     @endforeach
 </div>
-</body>
-</html>
+@endsection

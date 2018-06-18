@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>CORMAN </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <h2>Create A Product</h2><br  />
     @if ($errors->any())
@@ -107,5 +102,4 @@
     </form>
 </div>
 </div>
-</body>
-</html>
+    @endsection

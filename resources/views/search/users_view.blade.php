@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Modifica il mio profilo </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <h1> Modifica il mio profilo </h1>
     @if ($errors->any())
@@ -17,3 +12,4 @@
             </ul>
         </div><br/>
 @endif
+    @endsection

@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Il mio profilo </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <h1> Il mio profilo </h1>
     @if ($errors->any())
@@ -30,5 +25,4 @@
     </form>
     <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
 </div>
-</body>
-</html>
+    @endsection

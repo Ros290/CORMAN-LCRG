@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>CORMAN </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
     <h2>Create A Sub-Field of {{$field->name}} Field </h2><br  />
     @if ($errors->any())
@@ -40,5 +35,4 @@
         </div>
     </form>
 </div>
-</body>
-</html>
+    @endsection

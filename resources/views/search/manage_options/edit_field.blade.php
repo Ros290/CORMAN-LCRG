@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Laravel 5.5 CRUD Tutorial With Example From Scratch </title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <script>
-        function fieldValue(){
-            var php_var = "{{$field->values}}";
-            var id = (php_var == 1) ? "ifYes" : "ifNo";
-            var radio_btn = document.getElementById(id);
-            radio_btn.setAttribute("checked","checked");
-        }
-        window.onLoad = fieldValue;
-    </script>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<script>
+    function fieldValue(){
+        var php_var = "{{$field->values}}";
+        var id = (php_var == 1) ? "ifYes" : "ifNo";
+        var radio_btn = document.getElementById(id);
+        radio_btn.setAttribute("checked","checked");
+    }
+    window.onLoad = fieldValue;
+</script>
 <div class="container">
     <h2>Edit A Product</h2><br  />
     @if ($errors->any())
@@ -78,5 +72,4 @@
         </div>
     </form>
 </div>
-</body>
-</html>
+    @endsection
