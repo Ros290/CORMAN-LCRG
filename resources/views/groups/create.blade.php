@@ -42,11 +42,10 @@
 
     }
 
-    //Route::resource('photos', 'PhotoController');
 
     function myFunction2() {
 
-        var listGroup = document.getElementById("myGroup");
+        /*var listGroup = document.getElementById("myGroup");
         var newGroup = document.createElement("INPUT");
         newGroup.setAttribute("type","text");
         newGroup.setAttribute("id","gruppo");
@@ -61,7 +60,7 @@
         newAdmin.setAttribute("id","admin");
         newAdmin.setAttribute("value","email_admin");
         d.appendChild(newAdmin);
-        listGroup.appendChild(d);
+        listGroup.appendChild(d);*/
 
     }
 
@@ -79,7 +78,10 @@
         <button onclick="myFunction2()" class = "btn btn-success">+ Crea Gruppo</button>
     </div>
 
-    <div id="myGroup" class="align-items-baseline"></div>
+    <div id="myGroup" class="align-items-baseline">
+        <p><input type="text" id="namegroup" value="name group"></p>
+        <p><input type="text" id="emailadmin" value="email admin"></p>
+    </div>
 
 </div>
     @endsection
