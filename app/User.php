@@ -31,7 +31,7 @@ class User extends Authenticatable
      * Verifica la presenza o meno di un utente associato ai dati passati come parametri
      * @param $login_email indirizzo email dell'utente da convalidare
      * @param $login_password password dell'utente da convalidare
-     * @return bool ritora true se i campi sono associabili ad un utente, altrimenti false
+     * @return bool ritornna true se i campi sono associabili ad un utente, altrimenti false
      */
     public static function findUser($login_email,$login_password){
         $array_utente = User::all();

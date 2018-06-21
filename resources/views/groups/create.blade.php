@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
 <script>
+
     function myFunction() {
         /*Aggiungere crea nuovo grupppo*/
 
@@ -42,46 +44,55 @@
 
     }
 
-
-    function myFunction2() {
-
-        /*var listGroup = document.getElementById("myGroup");
-        var newGroup = document.createElement("INPUT");
-        newGroup.setAttribute("type","text");
-        newGroup.setAttribute("id","gruppo");
-        newGroup.setAttribute("value","nome_gruppo");
-        var d = document.createElement("P");
-        d.appendChild(newGroup);
-        listGroup.appendChild(d);
-
-
-        var newAdmin = document.createElement("INPUT");
-        newAdmin.setAttribute("type","text");
-        newAdmin.setAttribute("id","admin");
-        newAdmin.setAttribute("value","email_admin");
-        d.appendChild(newAdmin);
-        listGroup.appendChild(d);*/
-
-    }
-
 </script>
 <div class="container">
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div><br />
+@endif
+    <!--
     <div>
         <button onclick="myFunction()" class = "btn btn-success">+ Aggiungi Mail</button>
     </div>
+    -->
 
+    <!--
     <div id="myList" class="align-items-baseline">
         <p><input type="text" id="email0" value="email 0"></p>
     </div>
+    -->
 
-    <div>
-        <button onclick="myFunction2()" class = "btn btn-success">+ Crea Gruppo</button>
+    <form method="post" action="{{url('gruppo')}}">
+        {{csrf_field()}}
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="form-group col-md-4">
+            <label for="email_admin">Email Admin:</label>
+            <input type="text" class="form-control" name="email_admin">
+        </div>
     </div>
 
-    <div id="myGroup" class="align-items-baseline">
-        <p><input type="text" id="namegroup" value="name group"></p>
-        <p><input type="text" id="emailadmin" value="email admin"></p>
+    <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+                <label for="name_group">Name Group:</label>
+                <input type="text" class="form-control" name="name_group">
+            </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="form-group col-md-4">
+            <button type="submit" class="btn btn-success" style="margin-left:38px">OK</button>
+        </div>
+    </div>
+    </form>
 </div>
     @endsection

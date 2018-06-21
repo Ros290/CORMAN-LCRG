@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-        <!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <!-- Latest compiled and minified CSS -->
@@ -41,5 +39,3 @@
 </div>
 </body>
 </html>
-
-@endsection

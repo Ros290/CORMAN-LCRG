@@ -10,4 +10,15 @@ class Group extends Model
     public function utenti() {
         return $this->belongsToMany('App\User');
     }
+
+    public static function findEmail($email_admin){
+        $array_admin = User::all();
+        foreach ($array_admin as $utente ){
+            $email = $utente->email;
+            if($email==$email_admin){
+                return true;
+            }
+        }
+        return false;
+    }
 }
