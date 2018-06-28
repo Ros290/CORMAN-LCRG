@@ -37,7 +37,7 @@
                 <label for="name">Option:</label>
                 <select class="form-control" name="id_option">
                     @foreach ($options = App\SearchOption::all() as $option)
-                        <option value={{$option['id']}}>{{$option['name']}}</option>
+                        <option value={{$option['id']}} {{($option['id'] == $field->id_option) ? 'selected' : ''}}>{{$option['name']}}</option>
                     @endforeach
                 </select>
             </div>
@@ -60,10 +60,20 @@
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">
                 <label for="values">Values?:</label>
-                <input type="radio" id="ifYes" class="form-control" name="values"  value="1">Yes<br>
-                <input type="radio" id="ifNo" class="form-control" name="values" value="0">No
+                <input type="radio" id="ifYes" class="form-control" name="values"  value="0" {{(!$field->values) ? 'checked' : ''}}>No<br>
+                <input type="radio" id="ifNo" class="form-control" name="values" value="1" {{($field->values) ? 'checked' : ''}}>Yes
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="form-group col-md-4">
+                <label for="on_popup">On Popup Window?:</label>
+                <input type="radio" class="form-control" name="on_popup" value="0" {{(!$field->on_popup) ? 'checked' : ''}}>No<br>
+                <input type="radio" class="form-control" name="on_popup" value="1" {{($field->on_popup) ? 'checked' : ''}}>Yes
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">

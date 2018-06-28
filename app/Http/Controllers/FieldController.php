@@ -86,11 +86,13 @@ class FieldController extends Controller
             'attr_url' => 'required',
             'attr_json' => 'required',
             'values' => 'required',
+            'on_popup' => 'required',
             'id_option' => 'required|numeric'
         ]);
         $field->name = $request->get('name');
         $field->attr_url = $request->get('attr_url');
         $field->attr_json = $request->get('attr_json');
+        $field->on_popup = $request->get('on_popup');
         $field->values = $request->get('values');
         $field->id_option = $request->get('id_option');
         $field->save();
