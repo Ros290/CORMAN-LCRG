@@ -43,11 +43,20 @@ class GroupController extends Controller
          $gruppo = new Group($attributes);
          //$gruppo->email_admin = $attributes['email_admin'];
          $user_admin = User::where('email',$attributes['email_admin'])->first();
+         if(is_null($user_admin))
+         {
+             return back()->withErrors(['email_admin' => ['Email errata!']]);
+         }
+         if(!Group::findGroup($attributes['name_group']))
+         {
+             return back()->withErrors(['name_group' => ['Nome Gruppo errato!']]);
+         }
          $gruppo->name = $attributes['name_group'];
          $gruppo->id_creator = $user_admin->id;
          $gruppo->save();
-        return back()->with('success','Api Provider "'.$gruppo['name_group'].'" has been added');
 
+        //return back()->with('success','Api Provider "'.$gruppo['name_group'].'" has been added');
+        return back()->withErrors(['name_group' => ['Gruppo creato!']]);
     }
 
     /**
@@ -58,7 +67,11 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        //
+        $email = Group::findEmail($id);
+        if(!empty($email))
+            return view('accepted',compact('email'));
+        else
+            abort(404);
     }
 
     /**
@@ -69,7 +82,7 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('groups.edit');
     }
 
     /**

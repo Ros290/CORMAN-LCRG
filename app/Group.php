@@ -21,4 +21,15 @@ class Group extends Model
         }
         return false;
     }
+
+        public static function findGroup($name_group){
+            $name_group = Group::all();
+            foreach ($name_group as $gruppo ){
+                $nome = $gruppo->name;
+                if(($nome==$name_group)){
+                    return true;
+                }
+            }
+            return false;
+        }
 }
