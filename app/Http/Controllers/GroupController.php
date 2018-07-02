@@ -40,21 +40,23 @@ class GroupController extends Controller
             'email_admin' => 'required|email',
             'name_group' => 'required'
         ]);
+
          $gruppo = new Group($attributes);
          //$gruppo->email_admin = $attributes['email_admin'];
          $user_admin = User::where('email',$attributes['email_admin'])->first();
 
          if(is_null($user_admin))
          {
-             return back()->withErrors(['email_admin' => ['Email errata!']]);
+             return back()->withErrors(['email_admin' => ['Email inesistente !']]);
          }
 
          $name_group = Group::where('name',$attributes['name_group'])->first();
 
-         if(/*(Group::findGroup($attributes['name_group'])*/!is_null($name_group))
+         if(!is_null($name_group))/*(Group::findGroup($attributes['name_group'])*/
          {
-             return back()->withErrors(['name_group' => ['Nome Gruppo errato!']]);
+             return back()->withErrors(['name_group' => ['Nome Gruppo : "'.$attributes['name_group'].'" Esistente!']]);
          }
+
          $gruppo->name = $attributes['name_group'];
          $gruppo->id_creator = $user_admin->id;
 
@@ -74,11 +76,11 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $email = Group::findEmail($id);
+       /* $email = Group::findEmail($id);
         if(!empty($email))
             return view('accepted',compact('email'));
         else
-            abort(404);
+            abort(404);*/
     }
 
     /**
@@ -89,7 +91,13 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        return view('groups.edit');
+        $group = Group::find($id);
+
+        if(!is_null($group))
+            return view('groups.edit',compact('group'));
+        else
+            abort(404);
+        //return view('groups.edit');
     }
 
     /**

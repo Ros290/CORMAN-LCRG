@@ -32,4 +32,16 @@ class Group extends Model
             }
             return false;
         }
+
+
+   /* public static function find($group){
+        $group = Group::all();
+        foreach ($group as $gruppo){
+            $nome = $gruppo->id;
+            if($nome==$group->id_creator){
+                return $nome;
+            }
+        }
+        return false;
+    }*/
 }
