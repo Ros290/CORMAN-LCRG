@@ -56,7 +56,7 @@
             </ul>
         </div><br />
     @endif
-    
+
     @if (\Session::has('success'))
             <div class="alert alert-success">
                 <ul>

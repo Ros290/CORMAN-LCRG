@@ -43,20 +43,27 @@ class GroupController extends Controller
          $gruppo = new Group($attributes);
          //$gruppo->email_admin = $attributes['email_admin'];
          $user_admin = User::where('email',$attributes['email_admin'])->first();
+
          if(is_null($user_admin))
          {
              return back()->withErrors(['email_admin' => ['Email errata!']]);
          }
-         if(Group::findGroup($attributes['name_group']))
+
+         $name_group = Group::where('name',$attributes['name_group'])->first();
+
+         if(/*(Group::findGroup($attributes['name_group'])*/!is_null($name_group))
          {
              return back()->withErrors(['name_group' => ['Nome Gruppo errato!']]);
          }
          $gruppo->name = $attributes['name_group'];
          $gruppo->id_creator = $user_admin->id;
-         $gruppo->save();
 
-        return back()->with('success','Group : "'.$gruppo['name'].'" has been added!');
-        //return back()->withErrors(['name_group' => ['Gruppo creato!']]);
+        if($gruppo->save())
+        {
+            return back()->with('success','Group : "'.$gruppo['name'].'" has been added!');
+        }
+
+        return back()->withErrors(['name_group' => ['Gruppo non salvato!']]);
     }
 
     /**

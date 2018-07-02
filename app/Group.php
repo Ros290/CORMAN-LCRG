@@ -26,7 +26,7 @@ class Group extends Model
             $name_group = Group::all();
             foreach ($name_group as $gruppo ){
                 $nome = $gruppo->name;
-                if(($nome==$name_group)){
+                if($nome==$name_group){
                     return true;
                 }
             }
