@@ -55,7 +55,15 @@
                 @endforeach
             </ul>
         </div><br />
-@endif
+    @endif
+    
+    @if (\Session::has('success'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{!! \Session::get('success') !!}</li>
+                </ul>
+            </div>
+    @endif
     <!--
     <div>
         <button onclick="myFunction()" class = "btn btn-success">+ Aggiungi Mail</button>

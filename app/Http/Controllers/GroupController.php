@@ -47,7 +47,7 @@ class GroupController extends Controller
          {
              return back()->withErrors(['email_admin' => ['Email errata!']]);
          }
-         if(!Group::findGroup($attributes['name_group']))
+         if(Group::findGroup($attributes['name_group']))
          {
              return back()->withErrors(['name_group' => ['Nome Gruppo errato!']]);
          }
@@ -55,8 +55,8 @@ class GroupController extends Controller
          $gruppo->id_creator = $user_admin->id;
          $gruppo->save();
 
-        //return back()->with('success','Api Provider "'.$gruppo['name_group'].'" has been added');
-        return back()->withErrors(['name_group' => ['Gruppo creato!']]);
+        return back()->with('success','Group : "'.$gruppo['name'].'" has been added!');
+        //return back()->withErrors(['name_group' => ['Gruppo creato!']]);
     }
 
     /**
