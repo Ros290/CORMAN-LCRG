@@ -263,5 +263,5 @@ Route::get('/test',function(){
     return view('search.manage_options.logo');
 });
 Route::get('/test',function(){
-    return view('users_view');
+    return view('search.users_view');
 });

@@ -24,6 +24,6 @@
         <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Descrizione</button>
     </form>
     <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
-    <a href="{{url('utente/'.$utente->id.'/view_user')}}" class="btn btn-success">Visalizza utenti</a>
+    <a href="{{url('utente/'.$utente->id.'/users_view')}}" class="btn btn-success">Visalizza utenti</a>
 </div>
     @endsection
