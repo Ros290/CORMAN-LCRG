@@ -34,14 +34,14 @@ class Group extends Model
         }
 
 
-   /* public static function find($group){
+    public static function findId($id){
         $group = Group::all();
         foreach ($group as $gruppo){
-            $nome = $gruppo->id;
-            if($nome==$group->id_creator){
-                return $nome;
+            $idg= $gruppo->name;
+            if($idg==$id){
+                return $gruppo;
             }
         }
-        return false;
-    }*/
+        return null;
+    }
 }

@@ -55,7 +55,7 @@ class GroupController extends Controller
 
          if(!is_null($name_group))/*(Group::findGroup($attributes['name_group'])*/
          {
-             $errors [] = (['Nome Gruppo : "'.$attributes['name_group'].'" già esistente!']);
+             $errors [] = (['Nome Gruppo "'.$attributes['name_group'].'" già esistente!']);
          }
 
          if (!empty($errors)){
@@ -66,7 +66,7 @@ class GroupController extends Controller
 
         if($gruppo->save())
         {
-            return back()->with('success','Group : "'.$gruppo['name'].'" has been added!');
+            return back()->with('success','Group "'.$gruppo['name'].'" has been added!');
         }
 
         return back()->withErrors(['name_group' => ['Gruppo non salvato!']]);
@@ -80,7 +80,7 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-       /* $email = Group::findEmail($id);
+        /*$email = Group::findEmail($id);
         if(!empty($email))
             return view('accepted',compact('email'));
         else
@@ -95,10 +95,10 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        $group = Group::find($id);
+        $group = Group::findId($id);
 
-        if(!is_null($group))
-            return view('groups.edit',compact('group'));
+        if(is_object($group))
+            return view('groups.edit',compact('group->name'));
         else
             abort(404);
         //return view('groups.edit');
