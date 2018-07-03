@@ -45,18 +45,22 @@ class GroupController extends Controller
          //$gruppo->email_admin = $attributes['email_admin'];
          $user_admin = User::where('email',$attributes['email_admin'])->first();
 
+         $errors = array();
          if(is_null($user_admin))
          {
-             return back()->withErrors(['email_admin' => ['Email inesistente !']]);
+             $errors [] = (['Email inesistente !']);
          }
 
          $name_group = Group::where('name',$attributes['name_group'])->first();
 
          if(!is_null($name_group))/*(Group::findGroup($attributes['name_group'])*/
          {
-             return back()->withErrors(['name_group' => ['Nome Gruppo : "'.$attributes['name_group'].'" Esistente!']]);
+             $errors [] = (['Nome Gruppo : "'.$attributes['name_group'].'" già esistente!']);
          }
 
+         if (!empty($errors)){
+             return back()->withErrors($errors);
+         }
          $gruppo->name = $attributes['name_group'];
          $gruppo->id_creator = $user_admin->id;
 

@@ -1,16 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <script>
-        function showOrHide(idField){
-            var checkBox = document.getElementById('cbf' + idField);
-            var inputField = document.getElementById('if' + idField);
-            if(checkBox.checked === true){
-                inputField.style.display = 'table-cell';
-            }
-            else inputField.style.display = 'none';
-        }
-    </script>
     <div class="container">
         <h2>Search {{$option['name']}}</h2><br/>
         @if ($errors->any())
@@ -25,7 +15,6 @@
         <div class ="row" id="checkBoxTag">
             <div class="form-group col-md-4">
                 @foreach($attributes as $attribute)
-                    <input type="checkbox" id="cbf{{$attribute['id']}}" onClick="javascript:showOrHide({{$attribute['id']}})">{{$attribute['name']}}<br>
                 @endforeach
             </div>
         </div>
@@ -33,7 +22,7 @@
             @csrf
             <div class="row" id="fieldsTag">
                 @foreach($attributes as $attribute)
-                    <div class="form-group col-md-4" id="if{{$attribute['id']}}" style="display:none">
+                    <div class="form-group col-md-4 accordian-body collapse" id="{{$attribute['id']}}">
                         <label for={{$attribute['id']}}>{{$attribute['name']}}:</label>
                         <input type="text" class="form-control" name={{$attribute['id']}}>
                     </div>
