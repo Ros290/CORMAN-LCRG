@@ -15,6 +15,7 @@
         <div class ="row" id="checkBoxTag">
             <div class="form-group col-md-4">
                 @foreach($attributes as $attribute)
+                    <input data-toggle="collapse" type="checkbox"  data-target="{{"#".$attribute['id']}}">{{$attribute['name']}}<br>
                 @endforeach
             </div>
         </div>
