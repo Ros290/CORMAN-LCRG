@@ -15,8 +15,10 @@ class GroupController extends Controller
      */
     public function index()
     {
-    //
+        $users = User::all();
+        return view('users', ['users' => $users]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,42 +33,39 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $attributes = $this->validate(request(),[
+        $attributes = $this->validate(request(), [
             'email_admin' => 'required|email',
             'name_group' => 'required'
         ]);
 
-         $gruppo = new Group($attributes);
-         //$gruppo->email_admin = $attributes['email_admin'];
-         $user_admin = User::where('email',$attributes['email_admin'])->first();
+        $gruppo = new Group($attributes);
+        //$gruppo->email_admin = $attributes['email_admin'];
+        $user_admin = User::where('email', $attributes['email_admin'])->first();
 
-         $errors = array();
-         if(is_null($user_admin))
-         {
-             $errors [] = (['Email inesistente !']);
-         }
+        $errors = array();
+        if (is_null($user_admin)) {
+            $errors [] = (['Email inesistente !']);
+        }
 
-         $name_group = Group::where('name',$attributes['name_group'])->first();
+        $name_group = Group::where('name', $attributes['name_group'])->first();
 
-         if(!is_null($name_group))/*(Group::findGroup($attributes['name_group'])*/
-         {
-             $errors [] = (['Nome Gruppo "'.$attributes['name_group'].'" già esistente!']);
-         }
+        if (!is_null($name_group))/*(Group::findGroup($attributes['name_group'])*/ {
+            $errors [] = (['Nome Gruppo "' . $attributes['name_group'] . '" già esistente!']);
+        }
 
-         if (!empty($errors)){
-             return back()->withErrors($errors);
-         }
-         $gruppo->name = $attributes['name_group'];
-         $gruppo->id_creator = $user_admin->id;
+        if (!empty($errors)) {
+            return back()->withErrors($errors);
+        }
+        $gruppo->name = $attributes['name_group'];
+        $gruppo->id_creator = $user_admin->id;
 
-        if($gruppo->save())
-        {
-            return back()->with('success','Group "'.$gruppo['name'].'" has been added!');
+        if ($gruppo->save()) {
+            return back()->with('success', 'Group "' . $gruppo['name'] . '" has been added!');
         }
 
         return back()->withErrors(['name_group' => ['Gruppo non salvato!']]);
@@ -75,11 +74,12 @@ class GroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+
         /*$email = Group::findEmail($id);
         if(!empty($email))
             return view('accepted',compact('email'));
@@ -90,19 +90,27 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
+        $group = Group::find($id);
         $group = Group::findId($id);
 
-        if(is_object($group))
-            return view('groups.edit',compact('group->name'));
+        if(!is_null($group))
+            return view('groups.edit',compact('group'));
+
+          if (is_object($group))
+            return view('groups.edit', compact('group->name'));
         else
             abort(404);
         //return view('groups.edit');
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -113,7 +121,10 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, Group::$rules);
+        $group = Group::findOrFail($id);
+        $group->update($request->all());
+        return Redirect::to(route('group.index'));
     }
 
     /**
