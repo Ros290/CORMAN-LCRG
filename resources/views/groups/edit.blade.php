@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2>Edit A Group</h2><br  />
+    <h2>Modifica Gruppo</h2><br  />
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
