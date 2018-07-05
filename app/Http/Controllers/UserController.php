@@ -14,14 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $utente = $this->validate(request(),[
-            'password' => 'required',
-            'email' => 'required|email'
-        ]);
-        if(User::findUser($utente['email'],$utente['password']))
-            return back()->with('success','Accesso effettuato');
+        $utente = utente::find($id);
+        if(!empty($utente))
+            return view('search.users_view',compact('utente'));
         else
-            return back()->withErrors('errors','Utente non trovato');
+            abort(404);
     }
 
     /**

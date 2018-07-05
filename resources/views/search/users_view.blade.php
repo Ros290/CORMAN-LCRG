@@ -13,6 +13,19 @@
         </div><br/>
 @endif
     <div class="container">
+        <p>@foreach ($utente->all() as $utente)
+               {
+
+
+
+
+
+
+
+
+
+            @endforeach
+        </p>
 
     </div>
     <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Torna al tuo profilo</a>

@@ -15,11 +15,7 @@ class SubFieldController extends Controller
      */
     public function index()
     {
-        $utente = utente::find($id);
-        if(!empty($utente))
-            return view('search.users_view',compact('utente'));
-        else
-            abort(404);
+        //
     }
 
     /**
