@@ -12,14 +12,14 @@
             </ul>
         </div><br/>
     @endif
-    <p>Nome :
     <form method="post" action={{url('utente/'.$utente->id)}}>
     {{csrf_field()}}<!--da usare ogni volta che si definisce il tag FORM-->
         {{ method_field('PUT')}}
-        <input type="text" name="nome" rows="1" cols=30">{{$utente->name}}
+        <p>Nome :
+        <input type="text" rows="1" cols=30" name="name" value="{{$utente->name}}">
     </p>
     <p>E-Mail :
-        <input type="text" name="email" rows="1" cols=30">{{$utente->email}}
+        <input type="text" rows="1" cols=30" name="email" value="{{$utente->email}}">
     </p>
     <h1> Descrizione </h1>
     <!--
