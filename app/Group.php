@@ -32,16 +32,4 @@ class Group extends Model
             }
             return false;
         }
-
-
-    public static function findId($id){
-        $group = Group::all();
-        foreach ($group as $gruppo){
-            $idg= $gruppo->name;
-            if($idg==$id){
-                return $gruppo;
-            }
-        }
-        return null;
-    }
 }

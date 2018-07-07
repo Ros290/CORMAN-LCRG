@@ -95,12 +95,14 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        $group = Group::findId($id);
-
-          if (is_object($group))
-            return view('groups.edit', compact('group->name'));
+        $group = Group::find($id);
+        return view('groups.edit', compact('group'));
+        /*
+          if (!empty($group))
+            return view('groups.edit', compact('group'));
         else
             abort(404);
+        */
         //return view('groups.edit');
     }
 

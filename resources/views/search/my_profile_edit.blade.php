@@ -27,7 +27,7 @@
     ti basta riportare tali campi all'interno di un tag FORM. In questo modo, dovrai definire l'url di destinazione
     solo una volta
 
-    l'unica cosa che devi fare, quindi, è quello di mettere allZZinterno di form gli altri campi.
+    l'unica cosa che devi fare, quindi, è quello di mettere all'interno di form gli altri campi.
 
     Dopo di che, assicurati che ciascun campo d'istentazione sia riconoscibile tramite un univoco nome.
     Questo perchè, quando passerai i dati al controller, essi saranno accessibili solo tramite il nome.
