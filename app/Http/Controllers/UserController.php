@@ -46,6 +46,9 @@ class UserController extends Controller
         ]);
         User::create($utente);
         return back();
+
+
+
     }
 
     /**
@@ -101,24 +104,25 @@ class UserController extends Controller
              * Per il resto, basta che modifichi il modello utente che ricavi dal database con i nuovi valori
              */
         $this->validate(request(),[
-            'nome' => 'string'
-        ]);
-        $this->validate(request(),[
-            'email' => 'string'
-        ]);
-        $this->validate(request(),[
-                'testo' => 'nullable'
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'testo' => 'nullable'
         ]);
         //Ricava dal database il modello Utente con id = $id e lo associa alla variabile $utente
         $utente = User::find($id);
         //dal modello utente, inserisco la descrizione (salvato nella variabile 'testo') all'interno del campo "description"
-        $utente->name = $request->get('nome');
+        $utente->name = $request->get('name');
         $utente->email = $request->get('email');
         $utente->description = $request->get('testo');
         //salvo le modifiche effettuate sul modello Utente
         $utente->save();
         //ritorno alla pagina precedente
         return back();
+
+        if ($utente->save()) {
+            return back()->with('success', 'Utente "' . $utente['name'] . '" has been added!');
+        }
+
     }
     /**
      * Remove the specified resource from storage.

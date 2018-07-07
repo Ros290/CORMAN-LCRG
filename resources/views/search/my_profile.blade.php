@@ -12,16 +12,20 @@
             </ul>
         </div><br/>
     @endif
-    <p>Nome : {{$utente->name}}</p><br>
-    <p>E-Mail : {{$utente->email}}</p><br>
-    <h1> Descrizione </h1>
     <form method="post" action={{url('utente/'.$utente->id)}}>
         {{csrf_field()}}
         {{ method_field('PUT')}}
-    <textarea name="testo" rows="15" cols=150">
-         {{$utente->description}}
-        </textarea>
-        <button type="submit" class="btn btn-success" style="margin-left:38px">Salva Descrizione</button>
+    <p>Nome :
+            {{$utente->name}}
+    </p>
+    <p>E-Mail :
+        {{$utente->email}}
+    </p>
+        <!-- TODO: non mostrare Descrizione se è vuoto-->
+        @if ($description != null)
+    <h1> Descrizione </h1>
+        <p> {{$utente->description}}</p>
+            @endif
     </form>
     <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
     <a href="{{url('utente/'.$utente->id.'/users_view')}}" class="btn btn-success">Visalizza utenti</a>
