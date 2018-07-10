@@ -13,20 +13,16 @@
         </div><br/>
 @endif
     <div class="container">
-        <p>@foreach ($utente->all() as $utente)
-               {
-
-
-
-
-
-
-
-
-
+        <li>Utenti presenti</li>
+        <p>@foreach ($utente as $utente)
+                    <tr>
+                        {{csrf_field()}}
+                        <td>{{$utente['name']}}</td>
+                        <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
+                            </form>
+                    </tr>
             @endforeach
         </p>
-
     </div>
     <a href="{{url('utente/'.$utente->id)}}" class="btn btn-success">Torna al tuo profilo</a>
 </div>

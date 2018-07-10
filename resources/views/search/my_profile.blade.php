@@ -22,11 +22,11 @@
         {{$utente->email}}
     </p>
         <!-- TODO: non mostrare Descrizione se è vuoto-->
-        @if ($description != null)
-    <h1> Descrizione </h1>
+        @if (isset($description))
+            <h1> Descrizione </h1>
         <p> {{$utente->description}}</p>
-            @endif
     </form>
+    @endif
     <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
     <a href="{{url('utente/'.$utente->id.'/users_view')}}" class="btn btn-success">Visalizza utenti</a>
 </div>
