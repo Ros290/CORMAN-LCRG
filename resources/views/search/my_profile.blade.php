@@ -28,6 +28,6 @@
     </form>
     @endif
     <a href="{{url('utente/'.$utente->id.'/edit')}}" class="btn btn-success">Modifica</a>
-    <a href="{{url('utente/'.$utente->id.'/users_view')}}" class="btn btn-success">Visalizza utenti</a>
+    <a href="{{url('users_view')}}" class="btn btn-success">Visalizza utenti</a>
 </div>
     @endsection
